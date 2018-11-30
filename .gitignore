@@ -12,3 +12,5 @@
 /source/client/tests/elm-stuff
 /source/server/target
 Cargo.lock
+.DS_Store
+.idea/

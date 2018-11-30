@@ -51,6 +51,8 @@ fn main() {
                 move |z, x, y| {
                     match pool1.get() {
                         Ok(connection) => {
+                            println!("INSIDE HANDLER");
+
                             use schema::tiles::dsl::*;
                             use models::Tiles;
 
@@ -66,6 +68,10 @@ fn main() {
                                     .filter(tile_column.eq(x as i32))
                                     .filter(tile_row.eq(y as i32))
                                     .first::<Tiles>(&*connection);
+
+
+                            println!("x: {}, y: {}, z: {}", x, y, z);
+                            println!("{:?}", tile);
 
                             match tile {
                                 Ok(tile) => {

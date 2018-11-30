@@ -46,14 +46,12 @@ install-api: install-api-geocode install-api-route install-api-tile
 uninstall-api: uninstall-api-geocode uninstall-api-route
 
 # Install the geocode API.
-install-api-geocode: install-api-geocode-data install-api-geocode-indexer install-api-geocode-searcher
+install-api-geocode: install-api-geocode-indexer install-api-geocode-data install-api-geocode-searcher
 
 # Install/download data for the geocode API.
 install-api-geocode-data: install-api-geocode-indexer
 	cd source/api/geocode && \
-		curl -L {{geocode_data_planet}} > planet.tsv.gz && \
-		gzip -d planet.tsv.gz && \
-		mkdir index && \
+		mkdir -p index && \
 		./indexer/target/release/atlasr-api-geocode-indexer --source-file planet.tsv --index-directory index
 
 # Install the indexer for the geocode API.
@@ -93,7 +91,10 @@ install-api-tile:
 
 # Run the tile API.
 run-api-tile:
-	cd source/api/tile && cargo run --release
+	cd source/api/tile && \
+		SERVER_ADDRESS={{server_address}} \
+		TILE_API_ADDRESS={{tile_api_address}} \
+		cargo run --release
 
 # Uninstall the tile API.
 uninstall-api-tile:
